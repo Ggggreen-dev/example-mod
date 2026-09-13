@@ -1,0 +1,56 @@
+name: Build Android
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Android ARM64
+            os: ubuntu-latest
+            arch: arm64-v8a
+          - name: Android ARMv7
+            os: ubuntu-latest
+            arch: armeabi-v7a
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Setup Android NDK
+        uses: nttcom/setup-ndk@v1
+        with:
+          ndk-version: r25c
+          add-to-path: true
+      
+      - name: Setup CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+      
+      - name: Configure build for ${{ matrix.arch }}
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=${{ matrix.arch }} \
+            -DANDROID_PLATFORM=android-23
+      
+      - name: Build
+        run: cmake --build build --config RelWithDebInfo
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.config.name }} Build
+          path: build/bin/
