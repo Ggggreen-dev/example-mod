@@ -1,17 +1,32 @@
 {
-	"geode": "$GEODE_VERSION",
-	"gd": {
-		"win": "2.2081",
-		"android": "2.2081",
-		"mac": "2.2081",
-		"ios": "2.2081"
-	},
-	"id": "$MOD_ID",
-	"name": "$MOD_NAME",
-	"version": "$MOD_VERSION",
-	"developer": "$MOD_DEVELOPER",
-	"description": "$MOD_DESCRIPTION",
-	"dependencies": {
-		"geode.node-ids": ">=v1.23.3"
-	}
+  "geode": "3.9.0",
+  "version": "1.0.0",
+  "gd": {
+    "win": "2.206",
+    "android": "2.206",
+    "mac": "2.206",
+    "ios": "2.206"
+  },
+  "id": "ggggreen.noclip_hud_limiter",
+  "name": "Noclip HUD & Limiter",
+  "developer": "Ggggreen-dev",
+  "description": "HUD de Noclip con contador de muertes, precisión y límites que te hacen perder si los alcanzas.",
+  "settings": {
+    "death-limit": {
+      "name": "Límite de Muertes",
+      "description": "Número máximo de muertes en Noclip antes de perder (1-100)",
+      "type": "int",
+      "default": 5,
+      "min": 1,
+      "max": 100
+    },
+    "accuracy-limit": {
+      "name": "Límite de Precisión",
+      "description": "Precisión mínima permitida en porcentaje (10.0-100.0)",
+      "type": "float",
+      "default": 90.0,
+      "min": 10.0,
+      "max": 100.0
+    }
+  }
 }
